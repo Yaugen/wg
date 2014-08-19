@@ -1,11 +1,2 @@
 node_modules
 bower_components
-bower_components
-backbone
-backbone.babysitter
-backbone.localStorage
-backbone.marionette
-backbone.wreqr
-jquery
-requirejs
-underscore
