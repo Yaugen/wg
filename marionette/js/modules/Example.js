@@ -8,12 +8,12 @@ define([
     console.log('Module:Example => Loading...');
 
     var ExampleModule = app.module("Example", function(Example) {
-        this.startWithParent = false;
+        //this.startWithParent = false;
 
         this.addInitializer(function(){
             console.log('Module:Example => initialized');
 
-            //this.router = new Router({ controller: Controller });
+            this.router = new Router({ controller: Controller });
 
         });
     });

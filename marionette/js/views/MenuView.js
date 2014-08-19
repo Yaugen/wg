@@ -7,7 +7,7 @@ define([
 	'use strict';
 
 	return Marionette.CollectionView.extend({
-        itemView: MenuItemView,
+        childView: MenuItemView,
         tagName: 'ul',
         className: 'nav nav-pills pull-right'
 	});
