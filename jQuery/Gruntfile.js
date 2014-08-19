@@ -7,15 +7,16 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: [
-          'js/templates.js', 
-          'js/selectedItems.js', 
-          'js/selectItemsDialog.js',
-          'js/filter.js',
-          'js/search.js',
-          'js/itemContainer.js',
-          'js/selectedItems.js'
-        ],
+        src: ['js/*.js'],
+        // [
+        //   'js/templates.js', 
+        //   'js/selectedItems.js', 
+        //   'js/selectItemsDialog.js',
+        //   'js/filterItems.js',
+        //   'js/searchItems.js',
+        //   'js/itemContainer.js',
+        //   'js/selectedItems.js'
+        // ],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },

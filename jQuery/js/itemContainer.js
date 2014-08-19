@@ -18,10 +18,12 @@ $.widget('task.itemContainer', {
 	_create: function() {
 		var tmpl = nunjucks.render('templates/itemContainer.html');
 		this.element.html(tmpl);
-	}
+	},
 
 	getNextItems: function() {
 		
-	}
+	},
+
+	attachHandlers: function() {}
 
 });

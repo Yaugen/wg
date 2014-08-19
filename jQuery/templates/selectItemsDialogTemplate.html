@@ -1,22 +1,10 @@
 <div>
-	<div class="js-search">
-		<label for="item-search">Search:</label>
-		<input type="text" id="item-search"/>
-	</div>
-	<div class="js-filter">
-		<label for="item-filter">Filter:</label>
-		<select id="item-filter"></select>
-	</div>
-	<div class="js-items-container">
-		<ul>
-			{% for item in items %}
-				<li>{{item}}</li>
-			{% endfor %}
-		</ul>
-	</div>
+	<div class="js-search"></div>
+	<div class="js-filter"></div>
+	<div class="js-items-container"></div>
 	<div class="js-selected-items"></div>
 	<div class="js-confirm">
-		<a class="button js-confirm-button" href="#"></a>
-		<a class="button js-cancel-button" href="#"></a>
+		<a class="button js-confirm-button" href="#">Select</a>
+		<a class="button js-cancel-button" href="#">Cancel</a>
 	</div>
 </div>
