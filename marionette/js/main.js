@@ -2,11 +2,13 @@ require.config({
 	paths: {
 		underscore: '../bower_components/underscore/underscore',
 		backbone: '../bower_components/backbone/backbone',
+		babysitter: '../bower_components/backbone.babysitter/lib/backbone.babysitter',
+		wreqr: '../bower_components/backbone.wreqr/lib/backbone.wreqr',
 		marionette: '../bower_components/backbone.marionette/lib/backbone.marionette',
-		jquery: '../bower_components/jquery/jquery',
+		jquery: '../bower_components/jquery/dist/jquery',
 		localStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
-		tpl: 'lib/tpl',
-        bootstrap: 'lib/bootstrap.min'
+        bootstrap: '../bower_components/bootstrap/dist/js/bootstrap',
+        tpl: 'lib/tpl'
 	},
 
 	shim: {
@@ -19,9 +21,19 @@ require.config({
 			deps: ['jquery', 'underscore']
 		},
 
+		babysitter: {
+			exports: 'Backbone.babysitter',
+			deps: ['backbone']
+		},
+
+		wreqr: {
+			exports: 'Backbone.Wreqr',
+			deps: ['backbone']
+		},
+
 		marionette: {
 			exports: 'Backbone.Marionette',
-			deps: ['backbone']
+			deps: ['backbone', 'wreqr', 'babysitter']
 		},
 
         bootstrap: {
