@@ -7,16 +7,7 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['js/*.js'],
-        // [
-        //   'js/templates.js', 
-        //   'js/selectedItems.js', 
-        //   'js/selectItemsDialog.js',
-        //   'js/filterItems.js',
-        //   'js/searchItems.js',
-        //   'js/itemContainer.js',
-        //   'js/selectedItems.js'
-        // ],
+        src: ['js/*.js', 'templates/*.js'],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
@@ -40,15 +31,22 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['js/*.js', 'templates/*.html'],
-      tasks: ['nunjucks', 'concat']
+      files: ['js/*.js', 'templates/*.html', 'less/*.less'],
+      tasks: ['nunjucks', 'concat', 'less']
     },
     nunjucks: {
-        precompile: {
-            baseDir: '/',
-            src: 'templates/*',
-            dest: 'js/templates.js'
+      precompile: {
+        baseDir: 'templates',
+        src: 'templates/*',
+        dest: 'templates/templates.js'
+      }
+    },
+    less: {
+      development: {
+        files: {
+          "css/style.css": "less/main.less"
         }
+      }
     }
   });
 
@@ -57,6 +55,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-less');
 
   grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
 

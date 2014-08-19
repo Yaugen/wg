@@ -4,15 +4,15 @@ $.widget('task.selectItems', {
 	$selectBtn: null,
 
 	options: {
-		maxSelectedItems: 3
+		maxSelectedItems: 3,
+		selectedItems: []
 	},
 
-	selectedItems: [],
-
 	_init: function() {
-		$selectedItems = $(".js-selected-items", this.element);
-		$selectBtn = $(".js-edit-selection", this.element);
+		this.$selectedItems = $(".js-selected-items", this.element);
+		this.$selectBtn = $(".js-edit-selection", this.element);
 
+		this.$selectedItems.selectedItems({selectedItems: this.options.selectedItems});
 		this.attachHandlers();
 	},
 
@@ -22,14 +22,19 @@ $.widget('task.selectItems', {
 	},
 
 	attachHandlers: function() {
-		$selectBtn.on('click', $.proxy(this.openEditDialog, this));
+		this.$selectBtn.on('click', $.proxy(this.openEditDialog, this));
 	},
 
 	openEditDialog: function() {
+		var items = [];
+		for(var i=0; i<300;i++) {
+			items.push('item ' + i);
+		}
 		$('<div/>').selectItemsDialog({ 
-			items: ['item 1', 'item 2', 'item 3', 'item 4',], 
-			selectedItems: ['item 1'],
-			maxSelectedItems: this.options.maxSelectedItems
+			items: items, 
+			selectedItems: this.options.selectedItems,
+			maxSelectedItems: this.options.maxSelectedItems,
+			width: '500px'
 		});
 	}
 })

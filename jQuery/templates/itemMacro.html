@@ -1,0 +1,8 @@
+{% macro itemMacro(text, selected='') %}
+	<li class="item">
+		<span>{{text}}</span>
+		{% if selected %}
+			<i class="icon">X</i>
+		{% endif %}
+	</li>
+{% endmacro %}
