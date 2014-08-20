@@ -1,16 +1,43 @@
+@bgDark: #0B3E6F;
+@bgLight: #1D4C7A;
+@bgSelected: #aaa;
 .item-container {
 	height: 300px;
-	overflow: auto;
-	.item {
+	overflow-y: auto;
+	overflow-x: hidden;
+	.item-wrap {
+		&.selected {
+			.item {
+				background: @bgSelected;
+				&:hover {
+					background: @bgSelected;
+				}
+			}
+		}
+		.item {
+			margin-right: 10px;
+			cursor: pointer;
+		}
 		width: 100%;
 		display: block;
-		margin-right:15px;
 	}
 }
-.item {
+.item-wrap {
+
+	.item {
+		.icon-close {
+			float: right;
+			cursor: pointer;
+		}
+		&.selected {
+		}
+		&:hover {
+			background: @bgLight;
+		}
+		background: @bgDark;
+		padding: 5px;
+	}
 	display: inline-block;
-	width: 100px;
-	background: #00f;
-	padding: 3px 0px 3px 5px;
+	width: 150px;
 	margin: 5px;
 }

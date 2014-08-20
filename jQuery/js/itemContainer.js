@@ -3,7 +3,6 @@ $.widget('task.itemContainer', {
 	$itemList: null,
 	$itemContainer: null,
 
-	visibleItems: [],
 	lastItemIndex: 0,
 
 	options: {
@@ -21,15 +20,20 @@ $.widget('task.itemContainer', {
 	},
 
 	_create: function() {
-		var tmpl = nunjucks.render('templates/itemContainer.html');
+		var tmpl = nunjucks.render('itemContainer.html');
 		this.element.html(tmpl);
 	},
 
 	renderItems: function(append) {
 		var next = this.options.items.slice(this.lastItemIndex, this.lastItemIndex + this.options.visibleItemStep),
-			tmpl = nunjucks.render('templates/itemListTemplate.html', {items: next});
+			that = this,
+			tmpl;
+		next = next.map(function(e, i) {
+			return {item: e, selected: that.options.selectedItems.indexOf(e) >= 0};
+		});
 
-		this.visibleItems.concat(next);
+		tmpl = nunjucks.render('itemListTemplate.html', {items: next, showClose: false});
+
 		if(append) {
 			this.$itemList.append(tmpl);
 		} else {
@@ -40,6 +44,7 @@ $.widget('task.itemContainer', {
 
 	attachHandlers: function() {
 		this.$itemContainer.on('scroll', $.proxy(this.onContainerScroll, this));
+		this.$itemContainer.on('click', '.item-wrap', $.proxy(this.toggleItem, this));
 	},
 
 	replaceItems: function(items) {
@@ -50,9 +55,37 @@ $.widget('task.itemContainer', {
 
 	onContainerScroll: function(e) {
 		if(this.$itemContainer.scrollTop() + this.$itemContainer.innerHeight() >= e.target.scrollHeight) {
-			console.log('End reached');
             this.renderItems(true);
         }
+	},
+
+	toggleItem: function(e, item) {
+		var $item = $(e.currentTarget),
+			item = $item.data('item'),
+			itemIndex = this.options.selectedItems.indexOf(item);
+
+		$item.toggleClass('selected', itemIndex < 0);
+
+		if(itemIndex >= 0) {
+			this.options.selectedItems.slice(itemIndex, 1);
+			this.element.trigger('itemRemoved', item);
+
+		} else {
+			this.options.selectedItems.push(item);
+			this.element.trigger('itemSelected', item);
+		}
+	},
+
+	unselectItem: function(item) {
+		var itemIndex = this.options.selectedItems.indexOf(item),
+			$item;
+
+		if(itemIndex >= 0) {
+			$item = $('.item-wrap[data-item="' + item + '"]');
+			$item.removeClass('selected');
+			this.options.selectedItems.slice(itemIndex, 1);
+		}
 	}
+
 
 });

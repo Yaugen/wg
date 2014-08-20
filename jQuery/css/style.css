@@ -126,17 +126,36 @@ a img {
 }
 .item-container {
   height: 300px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
-.item-container .item {
+.item-container .item-wrap {
   width: 100%;
   display: block;
-  margin-right: 15px;
 }
-.item {
+.item-container .item-wrap.selected .item {
+  background: #aaaaaa;
+}
+.item-container .item-wrap.selected .item:hover {
+  background: #aaaaaa;
+}
+.item-container .item-wrap .item {
+  margin-right: 10px;
+  cursor: pointer;
+}
+.item-wrap {
   display: inline-block;
-  width: 100px;
-  background: #00f;
-  padding: 3px 0px 3px 5px;
+  width: 150px;
   margin: 5px;
+}
+.item-wrap .item {
+  background: #0b3e6f;
+  padding: 5px;
+}
+.item-wrap .item .icon-close {
+  float: right;
+  cursor: pointer;
+}
+.item-wrap .item:hover {
+  background: #1d4c7a;
 }

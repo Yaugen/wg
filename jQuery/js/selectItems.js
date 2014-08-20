@@ -17,7 +17,7 @@ $.widget('task.selectItems', {
 	},
 
 	_create: function() {
-		var tmpl = nunjucks.render('templates/selectItemsTemplate.html');
+		var tmpl = nunjucks.render('selectItemsTemplate.html');
 		this.element.html(tmpl);
 	},
 
@@ -34,7 +34,8 @@ $.widget('task.selectItems', {
 			items: items, 
 			selectedItems: this.options.selectedItems,
 			maxSelectedItems: this.options.maxSelectedItems,
-			width: '500px'
+			width: '500px',
+			modal: true
 		});
 	}
 })

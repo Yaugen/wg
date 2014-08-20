@@ -25,7 +25,7 @@ $.widget('task.selectItemsDialog', $.ui.dialog, {
 	},
 
 	open: function() {
-		var tmpl = nunjucks.render('templates/selectItemsDialogTemplate.html', {
+		var tmpl = nunjucks.render('selectItemsDialogTemplate.html', {
 			items: this.options.items
 		});
 		this.element.html(tmpl)
@@ -43,10 +43,17 @@ $.widget('task.selectItemsDialog', $.ui.dialog, {
 	},
 
 	initWidgets: function() {
-		this.$itemContainer.itemContainer({items: this.options.items });
-		this.$filter.filterItems({filters: this.filters});
+		this.$itemContainer.itemContainer({
+			items: this.options.items, 
+			selectedItems: this.options.selectedItems
+		});
+		this.$filter.filterItems({
+			filters: this.filters
+		});
 		this.$search.searchItems();
-		this.$selectedItems.selectedItems({selectedItems: this.options.selectedItems})
+		this.$selectedItems.selectedItems({
+			selectedItems: this.options.selectedItems
+		});
 	},
 
 	attachHandlers: function() {
@@ -60,6 +67,10 @@ $.widget('task.selectItemsDialog', $.ui.dialog, {
 			this.currentFilter = data.selectedFilter;
 			this.filterItems();
 		}, this));
+
+		this.$selectedItems.on('itemRemoved', $.proxy(this.itemRemoved, this));
+		this.$itemContainer.on('itemSelected', $.proxy(this.itemSelected, this));
+		this.$itemContainer.on('itemRemoved', $.proxy(this.itemRemoved, this));
 	},
 
 	prepareItems: function() {
@@ -83,5 +94,20 @@ $.widget('task.selectItemsDialog', $.ui.dialog, {
 		}
 
 		this.$itemContainer.itemContainer('replaceItems', filtered);
+	},
+
+	itemSelected: function(e, item) {
+		this.options.selectedItems.push(item);
+		this.$selectedItems.selectedItems('addItem', item);
+	},
+
+	itemRemoved: function(e, item) {
+		var itemIndex = this.options.selectedItems.indexOf(item);
+
+		if(itemIndex >= 0) {
+			this.options.selectedItems.slice(itemIndex, 1);
+			this.$itemContainer.itemContainer('unselectItem', item);
+			this.$selectedItems.selectedItems('removeItem', item);
+		}
 	}
 })

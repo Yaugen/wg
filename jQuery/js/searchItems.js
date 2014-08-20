@@ -16,7 +16,7 @@ $.widget('task.searchItems', {
 		this.$search.on('keyup', this.debouncedKeyup);
 	},
 	_create: function() {
-		var tmpl = nunjucks.render('templates/searchItemsTemplate.html');
+		var tmpl = nunjucks.render('searchItemsTemplate.html');
 		this.element.html(tmpl);
 	},
 	triggerSearchEvent: function() {

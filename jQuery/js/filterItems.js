@@ -12,7 +12,7 @@ $.widget('task.filterItems', {
 	},
 
 	_create: function() {
-		var tmpl = nunjucks.render('templates/filterItemsTemplate.html', {filters: this.options.filters});
+		var tmpl = nunjucks.render('filterItemsTemplate.html', {filters: this.options.filters});
 		this.element.html(tmpl);
 	},
 
