@@ -19,6 +19,12 @@ $.widget('task.selectItemsDialog', $.ui.dialog, {
 		},
 		label: "Greater than 10",
 		value: 'gt10'
+	}, {
+		predicate: function(e, i) {
+			return i > 100;
+		},
+		label: "Greater than 100",
+		value: 'gt100'
 	}],
 
 	options: {
@@ -40,7 +46,6 @@ $.widget('task.selectItemsDialog', $.ui.dialog, {
 		this.$confirmButton = $('.js-confirm-button', this.element);
 		this.$cancelButton = $('.js-cancel-button', this.element);
 
-		this.prepareItems();
 		this.attachHandlers();
 		this.initWidgets();
 
@@ -87,13 +92,7 @@ $.widget('task.selectItemsDialog', $.ui.dialog, {
 		this.$itemContainer.on('itemRemoved', $.proxy(this.itemRemoved, this));
 
 		this.$confirmButton.on('click', $.proxy(this.confirmSelection, this));
-		this.$cancelButton.on('click', this.close);
-	},
-
-	prepareItems: function() {
-		this.options.items.map(function(i, e, array) {
-			return e;
-		})
+		this.$cancelButton.on('click', $.proxy(function() { this.close() }, this));
 	},
 
 	filterItems: function() {

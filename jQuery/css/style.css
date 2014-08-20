@@ -124,38 +124,99 @@ a img {
 :focus {
   outline: 0;
 }
-.item-container {
+.select-items-dialog {
+  font-size: 16px;
+}
+.select-items-dialog .search-box {
+  float: left;
+}
+.select-items-dialog .filter-box {
+  float: left;
+  padding-left: 10px;
+}
+.select-items-dialog .item-container-wrap {
+  clear: both;
+  padding: 20px 0px;
+}
+.select-items-dialog .item-container {
   height: 300px;
   overflow-y: auto;
   overflow-x: hidden;
+  border: 1px solid #555;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-box-shadow: 0px 0px 20px 0px #555555 inset;
+  -moz-box-shadow: 0px 0px 20px 0px #555555 inset;
+  box-shadow: 0px 0px 20px 0px #555555 inset;
 }
-.item-container .item-wrap {
+.select-items-dialog .item-container .item-wrap {
   width: 100%;
   display: block;
 }
-.item-container .item-wrap.selected .item {
-  background: #aaaaaa;
+.select-items-dialog .item-container .item-wrap.selected .item {
+  background: #2f7dc6;
 }
-.item-container .item-wrap.selected .item:hover {
-  background: #aaaaaa;
+.select-items-dialog .item-container .item-wrap.selected .item:hover {
+  background: #2f7dc6;
 }
-.item-container .item-wrap .item {
+.select-items-dialog .item-container .item-wrap.disabled .item {
+  cursor: default;
+  background: #64696d;
+}
+.select-items-dialog .item-container .item-wrap .item {
   margin-right: 10px;
   cursor: pointer;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+}
+.select-items-dialog .button-container {
+  margin-top: 20px;
 }
 .item-wrap {
   display: inline-block;
-  width: 150px;
+  width: 125px;
   margin: 5px;
 }
 .item-wrap .item {
+  color: #fff;
   background: #0b3e6f;
   padding: 5px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
 }
 .item-wrap .item .icon-close {
   float: right;
   cursor: pointer;
+  padding-right: 5px;
 }
 .item-wrap .item:hover {
+  background: #1d4c7a;
+}
+.button {
+  color: #fff;
+  background: #0b3e6f;
+  text-decoration: none;
+  padding: 5px 15px;
+  margin: 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+}
+.button:hover {
   background: #1d4c7a;
 }

@@ -47,16 +47,14 @@ $.widget('task.selectItems', {
 	},
 
 	openEditDialog: function() {
-		var items = [];
-		for(var i=0; i<300;i++) {
-			items.push('item ' + i);
-		}
+		
 		this.$dialog.selectItemsDialog({ 
-			items: items, 
+			items: this.options.items, 
 			selectedItems: _.clone(this.options.selectedItems),
 			maxSelectedItems: this.options.maxSelectedItems,
 			width: '500px',
-			modal: true
+			modal: true,
+			resizable: false
 		});
 	}
 })

@@ -1,43 +1,84 @@
 @bgDark: #0B3E6F;
 @bgLight: #1D4C7A;
-@bgSelected: #aaa;
-.item-container {
-	height: 300px;
-	overflow-y: auto;
-	overflow-x: hidden;
-	.item-wrap {
-		&.selected {
-			.item {
-				background: @bgSelected;
-				&:hover {
+@bgDisabled: #64696D;
+@bgSelected: #2F7DC6;
+
+.select-items-dialog {
+	font-size: 16px;
+	.search-box {
+		float: left;
+	}
+	.filter-box {
+		float: left;
+		padding-left: 10px;
+	}
+	.item-container-wrap {
+		clear: both;
+		padding: 20px 0px;
+		
+	}
+	.item-container {
+		height: 300px;
+		overflow-y: auto;
+		overflow-x: hidden;
+
+		border: 1px solid #555;
+		.border-radius(3px);
+		.box-shadow(0px 0px 20px 0px #555 inset);
+
+		.item-wrap {
+			&.selected {
+				.item {
 					background: @bgSelected;
+					&:hover {
+						background: @bgSelected;
+					}
 				}
 			}
+			&.disabled .item{
+				cursor: default;
+				background: @bgDisabled;
+			}
+			.item {
+				margin-right: 10px;
+				cursor: pointer;
+				.border-radius(0px);
+			}
+			width: 100%;
+			display: block;
 		}
-		.item {
-			margin-right: 10px;
-			cursor: pointer;
-		}
-		width: 100%;
-		display: block;
+	}
+	.button-container {
+		margin-top: 20px;
 	}
 }
 .item-wrap {
-
 	.item {
+		color: #fff;
 		.icon-close {
 			float: right;
 			cursor: pointer;
-		}
-		&.selected {
+			padding-right: 5px;
 		}
 		&:hover {
 			background: @bgLight;
 		}
 		background: @bgDark;
 		padding: 5px;
+		.border-radius(3px);
 	}
 	display: inline-block;
-	width: 150px;
+	width: 125px;
 	margin: 5px;
+}
+.button {
+	&:hover {
+		background: @bgLight;
+	}
+	color: #fff;
+	background: @bgDark;
+	text-decoration: none;
+	padding: 5px 15px;
+	margin: 10px;
+	.border-radius(3px);
 }

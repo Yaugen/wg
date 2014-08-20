@@ -17,7 +17,15 @@
 	<script src="dist/jQuery_WG_task.js"></script>
 	<script type="text/javascript">
 	$(function() {
-		$('#container').selectItems({selectedItems: ['item 1']});
+		var items = [];
+		for(var i=0; i<300;i++) {
+			items.push('item ' + i);
+		}
+
+		$('#container').selectItems({
+			items: items,
+			selectedItems: ['item 1']
+		});
 	})
 	</script>
 </body>

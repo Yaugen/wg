@@ -94,9 +94,11 @@ if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "item")),"
 output += "selected";
 ;
 }
-output += " ";
+else {
 if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "item")),"disabled", env.autoesc)) {
-output += "disable";
+output += "disabled";
+;
+}
 ;
 }
 output += "\"  data-item=\"";
@@ -142,7 +144,7 @@ var lineno = null;
 var colno = null;
 var output = "";
 try {
-output += "<div>\r\n\t<div class=\"js-search\"></div>\r\n\t<div class=\"js-filter\"></div>\r\n\t<div class=\"js-items-container\"></div>\r\n\t<div class=\"js-selected-items\"></div>\r\n\t<div class=\"js-confirm\">\r\n\t\t<a class=\"button js-confirm-button\" href=\"#\">Select</a>\r\n\t\t<a class=\"button js-cancel-button\" href=\"#\">Cancel</a>\r\n\t</div>\r\n</div>";
+output += "<div class=\"select-items-dialog\">\r\n\t<div class=\"js-search search-box\"></div>\r\n\t<div class=\"js-filter filter-box\"></div>\r\n\t<div class=\"js-items-container item-container-wrap\"></div>\r\n\t<div class=\"js-selected-items selected-items\"></div>\r\n\t<div class=\"js-confirm button-container\">\r\n\t\t<a class=\"button js-confirm-button\" href=\"#\">Select</a>\r\n\t\t<a class=\"button js-cancel-button\" href=\"#\">Cancel</a>\r\n\t</div>\r\n</div>";
 cb(null, output);
 ;
 } catch (e) {

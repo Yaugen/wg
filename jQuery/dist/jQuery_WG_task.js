@@ -96,17 +96,22 @@ $.widget('task.filterItems', {
 			itemIndex = this.options.selectedItems.indexOf(item);
 
 		if(itemIndex >= 0) {
-			this.element.trigger('itemRemoved', item);
 			$item.removeClass('selected');
+			this.element.trigger('itemRemoved', item);
 
 		} else if(!this.options.disabled) {
-			this.element.trigger('itemSelected', item);
 			$item.addClass('selected');
+			this.element.trigger('itemSelected', item);
 		}
 	},
 
 	toggleDiableSelection: function() {
-		this.$itemList.find('.item-wrap:not(.selected)').toggleClass('disabled');
+		var $disabled = this.$itemList.find('.item-wrap.disabled');
+		if($disabled.length > 0) {
+			$disabled.removeClass('disabled');
+		} else {
+			this.$itemList.find('.item-wrap:not(.selected)').addClass('disabled');
+		}
 		this.options.disabled = !this.options.disabled;
 	},
 
@@ -194,16 +199,14 @@ $.widget('task.filterItems', {
 	},
 
 	openEditDialog: function() {
-		var items = [];
-		for(var i=0; i<300;i++) {
-			items.push('item ' + i);
-		}
+		
 		this.$dialog.selectItemsDialog({ 
-			items: items, 
+			items: this.options.items, 
 			selectedItems: _.clone(this.options.selectedItems),
 			maxSelectedItems: this.options.maxSelectedItems,
 			width: '500px',
-			modal: true
+			modal: true,
+			resizable: false
 		});
 	}
 });$.widget('task.selectItemsDialog', $.ui.dialog, {
@@ -227,6 +230,12 @@ $.widget('task.filterItems', {
 		},
 		label: "Greater than 10",
 		value: 'gt10'
+	}, {
+		predicate: function(e, i) {
+			return i > 100;
+		},
+		label: "Greater than 100",
+		value: 'gt100'
 	}],
 
 	options: {
@@ -248,7 +257,6 @@ $.widget('task.filterItems', {
 		this.$confirmButton = $('.js-confirm-button', this.element);
 		this.$cancelButton = $('.js-cancel-button', this.element);
 
-		this.prepareItems();
 		this.attachHandlers();
 		this.initWidgets();
 
@@ -295,13 +303,7 @@ $.widget('task.filterItems', {
 		this.$itemContainer.on('itemRemoved', $.proxy(this.itemRemoved, this));
 
 		this.$confirmButton.on('click', $.proxy(this.confirmSelection, this));
-		this.$cancelButton.on('click', this.close);
-	},
-
-	prepareItems: function() {
-		this.options.items.map(function(i, e, array) {
-			return e;
-		})
+		this.$cancelButton.on('click', $.proxy(function() { this.close() }, this));
 	},
 
 	filterItems: function() {
@@ -493,9 +495,11 @@ if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "item")),"
 output += "selected";
 ;
 }
-output += " ";
+else {
 if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "item")),"disabled", env.autoesc)) {
-output += "disable";
+output += "disabled";
+;
+}
 ;
 }
 output += "\"  data-item=\"";
@@ -541,7 +545,7 @@ var lineno = null;
 var colno = null;
 var output = "";
 try {
-output += "<div>\r\n\t<div class=\"js-search\"></div>\r\n\t<div class=\"js-filter\"></div>\r\n\t<div class=\"js-items-container\"></div>\r\n\t<div class=\"js-selected-items\"></div>\r\n\t<div class=\"js-confirm\">\r\n\t\t<a class=\"button js-confirm-button\" href=\"#\">Select</a>\r\n\t\t<a class=\"button js-cancel-button\" href=\"#\">Cancel</a>\r\n\t</div>\r\n</div>";
+output += "<div class=\"select-items-dialog\">\r\n\t<div class=\"js-search search-box\"></div>\r\n\t<div class=\"js-filter filter-box\"></div>\r\n\t<div class=\"js-items-container item-container-wrap\"></div>\r\n\t<div class=\"js-selected-items selected-items\"></div>\r\n\t<div class=\"js-confirm button-container\">\r\n\t\t<a class=\"button js-confirm-button\" href=\"#\">Select</a>\r\n\t\t<a class=\"button js-cancel-button\" href=\"#\">Cancel</a>\r\n\t</div>\r\n</div>";
 cb(null, output);
 ;
 } catch (e) {

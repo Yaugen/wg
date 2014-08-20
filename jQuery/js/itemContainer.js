@@ -70,17 +70,22 @@ $.widget('task.itemContainer', {
 			itemIndex = this.options.selectedItems.indexOf(item);
 
 		if(itemIndex >= 0) {
-			this.element.trigger('itemRemoved', item);
 			$item.removeClass('selected');
+			this.element.trigger('itemRemoved', item);
 
 		} else if(!this.options.disabled) {
-			this.element.trigger('itemSelected', item);
 			$item.addClass('selected');
+			this.element.trigger('itemSelected', item);
 		}
 	},
 
 	toggleDiableSelection: function() {
-		this.$itemList.find('.item-wrap:not(.selected)').toggleClass('disabled');
+		var $disabled = this.$itemList.find('.item-wrap.disabled');
+		if($disabled.length > 0) {
+			$disabled.removeClass('disabled');
+		} else {
+			this.$itemList.find('.item-wrap:not(.selected)').addClass('disabled');
+		}
 		this.options.disabled = !this.options.disabled;
 	},
 
