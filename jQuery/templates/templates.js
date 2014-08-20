@@ -94,6 +94,11 @@ if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "item")),"
 output += "selected";
 ;
 }
+output += " ";
+if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "item")),"disabled", env.autoesc)) {
+output += "disable";
+;
+}
 output += "\"  data-item=\"";
 output += runtime.suppressValue(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "item")),"item", env.autoesc), env.autoesc);
 output += "\" >\r\n\t<div class=\"item\">\r\n\t\t<span>";
@@ -154,7 +159,7 @@ var lineno = null;
 var colno = null;
 var output = "";
 try {
-output += "<div>\r\n\t<div class=\"selected-items js-selected-items\"></div>\r\n\t<a class=\"button js-edit-selection\" href=\"#\">Edit selection</a>\r\n</div>";
+output += "<div>\r\n\t<div class=\"selected-items js-selected-items\"></div>\r\n\t<div class=\"js-dialog\"></div>\r\n\t<a class=\"button js-edit-selection\" href=\"#\">Edit selection</a>\r\n</div>";
 cb(null, output);
 ;
 } catch (e) {

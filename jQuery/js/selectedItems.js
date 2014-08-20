@@ -35,15 +35,10 @@ $.widget('task.selectedItems', {
 			}
 		});
 		this.$selectedItemsList.append(itemTmpl);
-		this.options.selectedItems.push(item);
 	},
 	removeItem: function(item) {
-		var itemIndex = this.options.selectedItems.indexOf(item),
-			$itemWrap = this.$selectedItemsList.find('.item-wrap[data-item="' + item + '"]');
-
-		if(itemIndex >= 0) {
-			$itemWrap.remove();
-			this.options.selectedItems.slice(itemIndex, 1);
+		if(this.options.selectedItems.indexOf(item) >= 0) {
+			this.$selectedItemsList.find('.item-wrap[data-item="' + item + '"]').remove();
 		}
 	},
 	onItemRemoved: function(e) {

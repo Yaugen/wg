@@ -8,7 +8,8 @@ $.widget('task.itemContainer', {
 	options: {
 		items: [],
 		selectedItems: [],
-		visibleItemStep: 15
+		visibleItemStep: 15,
+		disabled: false
 	},
 
 	_init: function() {
@@ -29,7 +30,11 @@ $.widget('task.itemContainer', {
 			that = this,
 			tmpl;
 		next = next.map(function(e, i) {
-			return {item: e, selected: that.options.selectedItems.indexOf(e) >= 0};
+			return {
+				item: e, 
+				selected: that.options.selectedItems.indexOf(e) >= 0,
+				disabled: that.options.disabled
+			};
 		});
 
 		tmpl = nunjucks.render('itemListTemplate.html', {items: next, showClose: false});
@@ -64,16 +69,19 @@ $.widget('task.itemContainer', {
 			item = $item.data('item'),
 			itemIndex = this.options.selectedItems.indexOf(item);
 
-		$item.toggleClass('selected', itemIndex < 0);
-
 		if(itemIndex >= 0) {
-			this.options.selectedItems.slice(itemIndex, 1);
 			this.element.trigger('itemRemoved', item);
+			$item.removeClass('selected');
 
-		} else {
-			this.options.selectedItems.push(item);
+		} else if(!this.options.disabled) {
 			this.element.trigger('itemSelected', item);
+			$item.addClass('selected');
 		}
+	},
+
+	toggleDiableSelection: function() {
+		this.$itemList.find('.item-wrap:not(.selected)').toggleClass('disabled');
+		this.options.disabled = !this.options.disabled;
 	},
 
 	unselectItem: function(item) {
@@ -83,7 +91,6 @@ $.widget('task.itemContainer', {
 		if(itemIndex >= 0) {
 			$item = $('.item-wrap[data-item="' + item + '"]');
 			$item.removeClass('selected');
-			this.options.selectedItems.slice(itemIndex, 1);
 		}
 	}
 

@@ -2,6 +2,7 @@ $.widget('task.selectItems', {
 
 	$selectedItems: null,
 	$selectBtn: null,
+	$dialog: null,
 
 	options: {
 		maxSelectedItems: 3,
@@ -11,8 +12,8 @@ $.widget('task.selectItems', {
 	_init: function() {
 		this.$selectedItems = $(".js-selected-items", this.element);
 		this.$selectBtn = $(".js-edit-selection", this.element);
-
-		this.$selectedItems.selectedItems({selectedItems: this.options.selectedItems});
+		this.$dialog = $('.js-dialog', this.element);
+		this.render();
 		this.attachHandlers();
 	},
 
@@ -21,8 +22,28 @@ $.widget('task.selectItems', {
 		this.element.html(tmpl);
 	},
 
+	render: function() {
+		this.$selectedItems.selectedItems({selectedItems: this.options.selectedItems});
+	},
+
 	attachHandlers: function() {
 		this.$selectBtn.on('click', $.proxy(this.openEditDialog, this));
+		this.$dialog.on('selectionConfirmed', $.proxy(this.selectionChanged, this));
+		this.$selectedItems.on('itemRemoved', $.proxy(this.removeItem, this));
+	},
+
+	selectionChanged: function(e, data) {
+		this.options.selectedItems = data.selectedItems;
+		this.$selectedItems.selectedItems('destroy');
+		this.render();
+	},
+
+	removeItem: function(e, item) {
+		var itemIndex = this.options.selectedItems.indexOf(item);
+
+		if(itemIndex >= 0) {
+			this.options.selectedItems.splice(itemIndex, 1);
+		}
 	},
 
 	openEditDialog: function() {
@@ -30,9 +51,9 @@ $.widget('task.selectItems', {
 		for(var i=0; i<300;i++) {
 			items.push('item ' + i);
 		}
-		$('<div/>').selectItemsDialog({ 
+		this.$dialog.selectItemsDialog({ 
 			items: items, 
-			selectedItems: this.options.selectedItems,
+			selectedItems: _.clone(this.options.selectedItems),
 			maxSelectedItems: this.options.maxSelectedItems,
 			width: '500px',
 			modal: true

@@ -34,7 +34,8 @@ $.widget('task.filterItems', {
 	options: {
 		items: [],
 		selectedItems: [],
-		visibleItemStep: 15
+		visibleItemStep: 15,
+		disabled: false
 	},
 
 	_init: function() {
@@ -55,7 +56,11 @@ $.widget('task.filterItems', {
 			that = this,
 			tmpl;
 		next = next.map(function(e, i) {
-			return {item: e, selected: that.options.selectedItems.indexOf(e) >= 0};
+			return {
+				item: e, 
+				selected: that.options.selectedItems.indexOf(e) >= 0,
+				disabled: that.options.disabled
+			};
 		});
 
 		tmpl = nunjucks.render('itemListTemplate.html', {items: next, showClose: false});
@@ -90,16 +95,19 @@ $.widget('task.filterItems', {
 			item = $item.data('item'),
 			itemIndex = this.options.selectedItems.indexOf(item);
 
-		$item.toggleClass('selected', itemIndex < 0);
-
 		if(itemIndex >= 0) {
-			this.options.selectedItems.slice(itemIndex, 1);
 			this.element.trigger('itemRemoved', item);
+			$item.removeClass('selected');
 
-		} else {
-			this.options.selectedItems.push(item);
+		} else if(!this.options.disabled) {
 			this.element.trigger('itemSelected', item);
+			$item.addClass('selected');
 		}
+	},
+
+	toggleDiableSelection: function() {
+		this.$itemList.find('.item-wrap:not(.selected)').toggleClass('disabled');
+		this.options.disabled = !this.options.disabled;
 	},
 
 	unselectItem: function(item) {
@@ -109,7 +117,6 @@ $.widget('task.filterItems', {
 		if(itemIndex >= 0) {
 			$item = $('.item-wrap[data-item="' + item + '"]');
 			$item.removeClass('selected');
-			this.options.selectedItems.slice(itemIndex, 1);
 		}
 	}
 
@@ -142,6 +149,7 @@ $.widget('task.filterItems', {
 
 	$selectedItems: null,
 	$selectBtn: null,
+	$dialog: null,
 
 	options: {
 		maxSelectedItems: 3,
@@ -151,8 +159,8 @@ $.widget('task.filterItems', {
 	_init: function() {
 		this.$selectedItems = $(".js-selected-items", this.element);
 		this.$selectBtn = $(".js-edit-selection", this.element);
-
-		this.$selectedItems.selectedItems({selectedItems: this.options.selectedItems});
+		this.$dialog = $('.js-dialog', this.element);
+		this.render();
 		this.attachHandlers();
 	},
 
@@ -161,8 +169,28 @@ $.widget('task.filterItems', {
 		this.element.html(tmpl);
 	},
 
+	render: function() {
+		this.$selectedItems.selectedItems({selectedItems: this.options.selectedItems});
+	},
+
 	attachHandlers: function() {
 		this.$selectBtn.on('click', $.proxy(this.openEditDialog, this));
+		this.$dialog.on('selectionConfirmed', $.proxy(this.selectionChanged, this));
+		this.$selectedItems.on('itemRemoved', $.proxy(this.removeItem, this));
+	},
+
+	selectionChanged: function(e, data) {
+		this.options.selectedItems = data.selectedItems;
+		this.$selectedItems.selectedItems('destroy');
+		this.render();
+	},
+
+	removeItem: function(e, item) {
+		var itemIndex = this.options.selectedItems.indexOf(item);
+
+		if(itemIndex >= 0) {
+			this.options.selectedItems.splice(itemIndex, 1);
+		}
 	},
 
 	openEditDialog: function() {
@@ -170,9 +198,9 @@ $.widget('task.filterItems', {
 		for(var i=0; i<300;i++) {
 			items.push('item ' + i);
 		}
-		$('<div/>').selectItemsDialog({ 
+		this.$dialog.selectItemsDialog({ 
 			items: items, 
-			selectedItems: this.options.selectedItems,
+			selectedItems: _.clone(this.options.selectedItems),
 			maxSelectedItems: this.options.maxSelectedItems,
 			width: '500px',
 			modal: true
@@ -184,6 +212,8 @@ $.widget('task.filterItems', {
 	$filter: null,
 	$search: null,
 	$selectedItems: null,
+	$confirmButton: null,
+	$cancelButton: null,
 
 	filters: [{
 		predicate: function(e, i) {
@@ -201,7 +231,8 @@ $.widget('task.filterItems', {
 
 	options: {
 		items: [],
-		selectedItems: []
+		selectedItems: [],
+		maxSelectedItems: 10
 	},
 
 	open: function() {
@@ -214,10 +245,18 @@ $.widget('task.filterItems', {
 		this.$filter = $('.js-filter', this.element);
 		this.$search = $('.js-search', this.element);
 		this.$selectedItems = $('.js-selected-items', this.element);
+		this.$confirmButton = $('.js-confirm-button', this.element);
+		this.$cancelButton = $('.js-cancel-button', this.element);
 
 		this.prepareItems();
 		this.attachHandlers();
 		this.initWidgets();
+
+		this.currentFilter = {
+			predicate: function() {
+				return true;
+			}
+		}
 
 		return this._super();
 	},
@@ -225,7 +264,8 @@ $.widget('task.filterItems', {
 	initWidgets: function() {
 		this.$itemContainer.itemContainer({
 			items: this.options.items, 
-			selectedItems: this.options.selectedItems
+			selectedItems: this.options.selectedItems,
+			disabled: this.options.selectedItems.length == this.options.maxSelectedItems
 		});
 		this.$filter.filterItems({
 			filters: this.filters
@@ -237,11 +277,13 @@ $.widget('task.filterItems', {
 	},
 
 	attachHandlers: function() {
+
 		this.$search.on('search', $.proxy(function(e, data) {
 			console.log('search', data);
 			this.currentSearchString = data.searchStr.toLowerCase();
 			this.filterItems();
 		},this));
+
 		this.$filter.on('filterSelected', $.proxy(function (e, data) {
 			console.log('filter', data)
 			this.currentFilter = data.selectedFilter;
@@ -251,6 +293,9 @@ $.widget('task.filterItems', {
 		this.$selectedItems.on('itemRemoved', $.proxy(this.itemRemoved, this));
 		this.$itemContainer.on('itemSelected', $.proxy(this.itemSelected, this));
 		this.$itemContainer.on('itemRemoved', $.proxy(this.itemRemoved, this));
+
+		this.$confirmButton.on('click', $.proxy(this.confirmSelection, this));
+		this.$cancelButton.on('click', this.close);
 	},
 
 	prepareItems: function() {
@@ -260,18 +305,18 @@ $.widget('task.filterItems', {
 	},
 
 	filterItems: function() {
-		var filtered = [],
-			that = this;
-		if(this.currentFilter) {
-			filtered = this.options.items.filter(this.currentFilter.predicate);
-		} else {
-			filtered = this.options.items;
-		}
-		if(this.currentSearchString) {
-			filtered = filtered.filter(function(e, i) {
+		var that = this,
+			filtered = [];
+
+		filtered = _(this.options.items)
+		.filter(that.currentFilter.predicate)
+		.filter(function(e, i) {
+			if(!that.currentSearchString) {
+				return true;
+			} else {
 				return e.toLowerCase().indexOf(that.currentSearchString) >= 0;
-			})
-		}
+			}
+		})
 
 		this.$itemContainer.itemContainer('replaceItems', filtered);
 	},
@@ -279,17 +324,31 @@ $.widget('task.filterItems', {
 	itemSelected: function(e, item) {
 		this.options.selectedItems.push(item);
 		this.$selectedItems.selectedItems('addItem', item);
+		this.checkSelectionCount();
 	},
 
 	itemRemoved: function(e, item) {
 		var itemIndex = this.options.selectedItems.indexOf(item);
 
+		this.checkSelectionCount();
 		if(itemIndex >= 0) {
-			this.options.selectedItems.slice(itemIndex, 1);
 			this.$itemContainer.itemContainer('unselectItem', item);
 			this.$selectedItems.selectedItems('removeItem', item);
+			this.options.selectedItems.splice(itemIndex, 1);
+		}
+	},
+
+	confirmSelection: function() {
+		this.element.trigger('selectionConfirmed', {selectedItems: this.options.selectedItems});
+		this.close();
+	},
+
+	checkSelectionCount: function() {
+		if(this.options.selectedItems.length == this.options.maxSelectedItems) {
+			this.$itemContainer.itemContainer('toggleDiableSelection');
 		}
 	}
+
 });$.widget('task.selectedItems', {
 
 	$selectedItemsList: null,
@@ -327,15 +386,10 @@ $.widget('task.filterItems', {
 			}
 		});
 		this.$selectedItemsList.append(itemTmpl);
-		this.options.selectedItems.push(item);
 	},
 	removeItem: function(item) {
-		var itemIndex = this.options.selectedItems.indexOf(item),
-			$itemWrap = this.$selectedItemsList.find('.item-wrap[data-item="' + item + '"]');
-
-		if(itemIndex >= 0) {
-			$itemWrap.remove();
-			this.options.selectedItems.slice(itemIndex, 1);
+		if(this.options.selectedItems.indexOf(item) >= 0) {
+			this.$selectedItemsList.find('.item-wrap[data-item="' + item + '"]').remove();
 		}
 	},
 	onItemRemoved: function(e) {
@@ -439,6 +493,11 @@ if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "item")),"
 output += "selected";
 ;
 }
+output += " ";
+if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "item")),"disabled", env.autoesc)) {
+output += "disable";
+;
+}
 output += "\"  data-item=\"";
 output += runtime.suppressValue(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "item")),"item", env.autoesc), env.autoesc);
 output += "\" >\r\n\t<div class=\"item\">\r\n\t\t<span>";
@@ -499,7 +558,7 @@ var lineno = null;
 var colno = null;
 var output = "";
 try {
-output += "<div>\r\n\t<div class=\"selected-items js-selected-items\"></div>\r\n\t<a class=\"button js-edit-selection\" href=\"#\">Edit selection</a>\r\n</div>";
+output += "<div>\r\n\t<div class=\"selected-items js-selected-items\"></div>\r\n\t<div class=\"js-dialog\"></div>\r\n\t<a class=\"button js-edit-selection\" href=\"#\">Edit selection</a>\r\n</div>";
 cb(null, output);
 ;
 } catch (e) {

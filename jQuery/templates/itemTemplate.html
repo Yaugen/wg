@@ -1,4 +1,4 @@
-<li class="item-wrap {% if item.selected %}selected{% endif %}"  data-item="{{item.item}}" >
+<li class="item-wrap {% if item.selected %}selected{% endif %} {% if item.disabled %}disable{% endif %}"  data-item="{{item.item}}" >
 	<div class="item">
 		<span>{{item.item}}</span>
 		{% if showClose %}
