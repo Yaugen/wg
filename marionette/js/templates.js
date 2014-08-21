@@ -12,9 +12,9 @@ function (Backbone, Marionette, nunjucks) {
         templates = {
             main: 'main.html',
             selectItems: 'selectItems.html',
-            selectedItems: 'selectedItems.html',
             selectedItemsDialog: 'selectedItemsDialog.html',
             item: 'item.html',
+            selectedItem: 'selectedItem.html'
         };
 
     Backbone.Marionette.Renderer.render = function(template, data) {

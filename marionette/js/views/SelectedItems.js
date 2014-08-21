@@ -3,15 +3,22 @@
 define([
     'underscore',
     'marionette',
-    'views/item'
-], function (_, Marionette, Item) {
+    'views/SelectedItem'
+], function (_, Marionette, SelectedItem) {
     'use strict';
 
     return Marionette.CollectionView.extend({
-    	childView: Item,
+    	childView: SelectedItem,
+    	
     	initialize: function() {
     		console.log('Selected view init')
     	},
-    	onRender: function() {}
+
+    	removeItem: function(e) {
+    		var item = $(e.target).find('.item').data('item'),
+    			model = this.collection.get(item);
+
+    		this.collection.remove(model);
+    	},
     });
 });

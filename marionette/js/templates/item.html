@@ -1,1 +1,3 @@
-<div>item</div>
+<div class="item {%if selected %}selected{% elif disabled %}disabled{% endif %}" data-item="{{item}}" >
+	<span>{{item}}</span>
+</div>

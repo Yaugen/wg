@@ -6,14 +6,13 @@ define([
 	'use strict';
 
 	return Backbone.Model.extend({
-
+		idAttribute: 'item',
 		defaults: {
             item: '',
+            selected: false,
+            disabled: false,
 		},
 
-		initialize: function () {
-			//this.set('content', _.result(templates.pages, this.get('name')));
-		}
 	});
 });
 

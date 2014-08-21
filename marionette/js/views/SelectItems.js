@@ -3,7 +3,7 @@
 define([
     'app',
     'marionette',
-    'collections/items',
+    'collections/Items',
     'views/SelectedItems',
     'views/SelectItemsDialog'
 ], function (app, Marionette, ItemsCollection, SelectedItems, SelectItemsDialog) {
