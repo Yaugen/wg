@@ -8,10 +8,7 @@ define([
 	return Backbone.Model.extend({
 
 		defaults: {
-			title: 'Page title',
-			content: 'Page content',
-            acive: false,
-            name: '404'
+            item: '',
 		},
 
 		initialize: function () {

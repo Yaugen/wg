@@ -1,17 +1,26 @@
 /*global define */
 
-define(function (require) {
-	'use strict';
+define([
+    'backbone',
+    'marionette',
+    'nunjucks',
+], 
+function (Backbone, Marionette, nunjucks) {
+    'use strict';
 
-	return {
-        pages : {
-          home: require('tpl!templates/pages/home.html'),
-          about: require('tpl!templates/pages/about.html'),
-          contact: require('tpl!templates/pages/contact.html')
-        },
-        page: require('tpl!templates/page.html'),
-        menuItem: require('tpl!templates/menuItem.html'),
-		footer: require('tpl!templates/footer.html')
-	};
+    var enviroment = new nunjucks.Environment(new nunjucks.WebLoader('js/templates')),
+        templates = {
+            main: 'main.html',
+            selectItems: 'selectItems.html',
+            selectedItems: 'selectedItems.html',
+            selectedItemsDialog: 'selectedItemsDialog.html',
+            item: 'item.html',
+        };
+
+    Backbone.Marionette.Renderer.render = function(template, data) {
+        return enviroment.render(templates[template], data);
+    }
+
+    return templates;
 });
 

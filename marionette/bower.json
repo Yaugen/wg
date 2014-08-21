@@ -24,6 +24,8 @@
     "backbone.wreqr": "^1.0.0",
     "backbone.marionette": "~2.1",
     "bootstrap": "~3.2.0",
-    "requirejs": "~2.1.14"
+    "requirejs": "~2.1.14",
+    "nunjucks": "~1.0.7",
+    "requirejs-text": "~2.0.12"
   }
 }

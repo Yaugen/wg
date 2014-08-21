@@ -15,6 +15,7 @@ define([
             console.log('Module:Pages => initialized');
 
             this.router = new Router({ controller: Controller });
+            window.location.hash = window.location.hash || ' ';
         });
 
 

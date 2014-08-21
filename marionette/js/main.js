@@ -8,12 +8,12 @@ require.config({
 		marionette: '../bower_components/backbone.marionette/lib/backbone.marionette',
 		localStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap',
-        tpl: 'lib/tpl'
+        nunjucks: '../bower_components/nunjucks/browser/nunjucks',
+        text: '../bower_components/requirejs-text/text'
 	},
 
 	shim: {
 		underscore: {
-			//deps: ['requirejs'],
 			exports: '_'
 		},
 
@@ -39,7 +39,9 @@ require.config({
 
         bootstrap: {
             deps: ['jquery']
-        }
+        },
+
+
 
 	},
     waitSeconds: 60
@@ -47,16 +49,10 @@ require.config({
 
 require([
 	'app',
-    'modules/Pages',
     'jquery',
 	'bootstrap'
-
-], function (app, PagesModule) {
+], function (app) {
 	'use strict';
-
-    app.addInitializer(function() {
-        PagesModule.start();
-    });
 
 	app.start();
 });
