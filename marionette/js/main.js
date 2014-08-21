@@ -1,11 +1,11 @@
 require.config({
 	paths: {
+		jquery: '../bower_components/jquery/dist/jquery',
 		underscore: '../bower_components/underscore/underscore',
 		backbone: '../bower_components/backbone/backbone',
 		babysitter: '../bower_components/backbone.babysitter/lib/backbone.babysitter',
 		wreqr: '../bower_components/backbone.wreqr/lib/backbone.wreqr',
 		marionette: '../bower_components/backbone.marionette/lib/backbone.marionette',
-		jquery: '../bower_components/jquery/dist/jquery',
 		localStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap',
         tpl: 'lib/tpl'
@@ -13,6 +13,7 @@ require.config({
 
 	shim: {
 		underscore: {
+			//deps: ['requirejs'],
 			exports: '_'
 		},
 
@@ -49,6 +50,7 @@ require([
     'modules/Pages',
     'jquery',
 	'bootstrap'
+
 ], function (app, PagesModule) {
 	'use strict';
 

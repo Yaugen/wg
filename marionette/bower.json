@@ -1,12 +1,29 @@
 {
-  "name": "wg_marionette",
+  "name": "marionette",
   "version": "0.0.0",
+  "homepage": "https://github.com/Yaugen/wg",
+  "authors": [
+    "Yaugen Salanovich <yaugen.salanovich@gmail.com>"
+  ],
+  "main": "js/main.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
-  	"jquery": "~2.1.x",
-    "requirejs": "~2.1.14",
-    "underscore": "~1.6",
-    "backbone.marionette": "~2.1",
+    "backbone.babysitter": "^0.1.0",
     "backbone.localStorage": "~1.1.10",
-    "bootstrap": "~3.2.0"
+    "backbone.wreqr": "^1.0.0",
+    "backbone.marionette": "~2.1",
+    "bootstrap": "~3.2.0",
+    "requirejs": "~2.1.14"
   }
 }
