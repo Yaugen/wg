@@ -7,7 +7,7 @@ define([
     'collections/Items',
     'models/Item',
     'views/SelectedItems',
-    'views/itemContainer'
+    'views/ItemContainer'
 ], function (app, _, Marionette, ItemsCollection, ItemModel, SelectedItems, ItemContainer) {
     'use strict';
 

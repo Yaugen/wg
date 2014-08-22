@@ -14,7 +14,8 @@ function (Backbone, Marionette, nunjucks) {
             selectItems: 'selectItems.html',
             selectedItemsDialog: 'selectedItemsDialog.html',
             item: 'item.html',
-            selectedItem: 'selectedItem.html'
+            selectedItem: 'selectedItem.html',
+            filters: 'filters.html',
         };
 
     Backbone.Marionette.Renderer.render = function(template, data) {
