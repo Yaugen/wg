@@ -12,6 +12,14 @@ define([
         events: {
             'click .item': 'onClick'
         },
+        initialize: function() {
+            this.listenTo(this.model, 'change:selected', this.rerender);
+        },
+        rerender: function() {
+            if(!this.isDestroyed) {
+                this.render();
+            }
+        },
         onClick: function(e) {
             if(this.model.get('disabled')) {
                 e.stopPropagation();
@@ -22,9 +30,7 @@ define([
             } else {
                 this.model.set('selected', true);
             }
-            if(!this.isDestroyed) {
-                this.render();
-            }
+            this.rerender();
         }
     });
 });

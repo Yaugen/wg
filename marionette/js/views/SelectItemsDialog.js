@@ -75,8 +75,12 @@ define([
             }
         },
         onItemRemoved: function(model, collection, operation) {
-            var item = model.get('item');
+            var item = model.get('item'),
+                model = this.itemContainerCollection.get(item);
             this.collection.get(item).set('selected', false);
+            if(model) {
+                model.set('selected', false);
+            }
         },
         onScrolledToEnd: function() {
             this.adjustItemContainerCollection();

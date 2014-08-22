@@ -27,7 +27,6 @@ define([
     });
 
     app.vent.on('open:dialog', function(options) {
-        console.log('aaa');
         if(options && options.viewConstructor && options.viewOptions) {
             // options.viewConstructor = options.viewConstructor.extend(options.viewOptions);
             app.dialog.show(new options.viewConstructor(options.viewOptions));

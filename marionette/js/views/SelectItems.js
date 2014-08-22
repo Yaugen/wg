@@ -14,6 +14,9 @@ define([
         initialize: function() {
             this.selectedCollection = new ItemsCollection().addItem('item 1');
             _.bindAll(this, 'editSelection', 'onDialogResult');
+            this.listenTo(this.selectedCollection, 'remove', function() {
+                console.log('on removed')
+            });
         },
         ui: {
             selectedItems: 'div.selected-items',
@@ -43,7 +46,7 @@ define([
         onDialogResult: function(data) {
             if(data.result == 'cancel') {
                 this.selectedItemsView.destroy();
-                this.selectedCollection = this.previousCollection;
+                this.selectedCollection.reset(this.previousCollection.models);
                 this.renderSelectedCollection();
             }
         }

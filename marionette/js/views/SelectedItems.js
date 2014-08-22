@@ -11,10 +11,6 @@ define([
         className: 'selected-items',
         childView: SelectedItem,
         
-        initialize: function() {
-            console.log('Selected view init')
-        },
-
         removeItem: function(e) {
             var item = $(e.target).find('.item').data('item'),
                 model = this.collection.get(item);
