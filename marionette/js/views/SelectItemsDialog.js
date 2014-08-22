@@ -18,10 +18,17 @@ define([
             itemContainer: '.item-container-wrap',
             selectedItems: '.selected-items'
         },
+        renderStep: 15,
+        lastIndex: 0,
+
         initialize: function(options) {
+        	_.bindAll(this, 'onScrolledToEnd');
             this.selectedCollection = options.selectedCollection;
             this.collection = new ItemsCollection().addManyItems();
             this.syncCollections();
+            this.itemContainerCollection = new ItemsCollection();
+            this.adjustItemContainerCollection();
+
             this.listenTo(this.selectedCollection, 'remove', this.onItemRemoved);
     		this.listenTo(this.collection, 'change:selected', this.onSelectedChanged);
         },
@@ -33,12 +40,20 @@ define([
             });
 
             itemContainerView = new ItemContainer({
-            	collection: this.collection,
+            	collection: this.itemContainerCollection,
             	selectedCollection: this.selectedCollection
-            })
+            });
+
+            filtersView = new FiltersView();
 
         	this.ui.selectedItems.html(selectedItemsView.render().el);
         	this.ui.itemContainer.html(itemContainerView.render().el);
+        	this.ui.filters.html(selectedItemsView.render().el);
+
+        	itemContainerView.on('scrolledToEnd', this.onScrolledToEnd);
+        },
+        onDestroy: function() {
+        	
         },
         onSelectedChanged: function(model, value) {
         	var item = model.get('item'),
@@ -54,6 +69,9 @@ define([
     		var item = model.get('item');
     		this.collection.get(item).set('selected', false);
     	},
+    	onScrolledToEnd: function() {
+    		this.adjustItemContainerCollection();
+    	},
         syncCollections: function() {
         	var that = this;
         	this.selectedCollection.each(function(e) {
@@ -62,6 +80,11 @@ define([
         			item.set('selected', true);
         		}
         	})
+        },
+        adjustItemContainerCollection: function() {
+        	var models = this.collection.models.slice(this.lastIndex, this.lastIndex + this.renderStep);
+        	this.itemContainerCollection.add(models);
+        	this.lastIndex += this.renderStep;
         }
     });
 });
