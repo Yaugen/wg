@@ -1,12 +1,12 @@
 /*global define */
 
 define([
-	'marionette',
+    'marionette',
     'templates'
 ], function (Marionette, templates) {
-	'use strict';
+    'use strict';
 
-	var app = new Marionette.Application();
+    var app = new Marionette.Application();
 
     app.addRegions({
         main: '#main',
@@ -33,7 +33,10 @@ define([
             app.dialog.show(new options.viewConstructor(options.viewOptions));
             app.dialog.$el.modal('show');
         }
-    })
+    });
+    app.vent.on('result:dialog', function() {
+        app.dialog.$el.modal('hide');
+    });
 
-	return app;
+    return app;
 });

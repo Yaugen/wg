@@ -13,7 +13,7 @@ define([
         template: 'selectItems',
         initialize: function() {
             this.selectedCollection = new ItemsCollection().addItem('item 1');
-            _.bindAll(this, 'editSelection');
+            _.bindAll(this, 'editSelection', 'onDialogResult');
         },
         ui: {
             selectedItems: 'div.selected-items',
@@ -23,16 +23,29 @@ define([
             'click @ui.editButton': 'editSelection'
         },
         onRender: function() {
-            var selectedItemsView = new SelectedItems({collection: this.selectedCollection});
-            this.ui.selectedItems.html(selectedItemsView.render().el);
+            this.renderSelectedCollection();
+        },
+        renderSelectedCollection: function() {
+            this.selectedItemsView = new SelectedItems({collection: this.selectedCollection});
+            this.ui.selectedItems.html(this.selectedItemsView.render().el);
         },
         editSelection: function() {
+            this.previousCollection = new ItemsCollection(this.selectedCollection.models);
             app.vent.trigger('open:dialog', {
                 viewConstructor: SelectItemsDialog, 
                 viewOptions: {
                     selectedCollection: this.selectedCollection
                 }
             });
+            app.vent.on('result:dialog', this.onDialogResult);
+
+        },
+        onDialogResult: function(data) {
+            if(data.result == 'cancel') {
+                this.selectedItemsView.destroy();
+                this.selectedCollection = this.previousCollection;
+                this.renderSelectedCollection();
+            }
         }
     });
 });

@@ -38,17 +38,6 @@ module.exports = function(grunt) {
       precompile: {
         baseDir: 'templates',
         src: ['templates/*.html'],
-        // [
-        //   'templates/filterItemsTemplate.html',
-        //   'templates/itemContainer.html',
-        //   'templates/itemListTemplate.html',
-        //   'templates/itemTemplate.html',
-        //   'templates/searchItemsTemplate.html',
-        //   'templates/selectedItemsContainerTemplate.html',
-        //   'templates/selectedItemsTemplate.html',
-        //   'templates/selectItemsDialogTemplate.html',
-        //   'templates/selectItemsTemplate.html'
-        // ],
         dest: 'templates/templates.js'
       }
     },

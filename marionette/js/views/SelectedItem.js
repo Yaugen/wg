@@ -7,14 +7,14 @@ define([
     'use strict';
 
     return Marionette.ItemView.extend({
-    	className: 'item-wrap',
+        className: 'item-wrap',
         template: 'selectedItem',
         events: {
-    		'click .remove-item': 'removeItem'
-    	},
-    	removeItem: function() {
-    		this.model.collection.remove(this.model);
-    		this.remove();
-    	}
+            'click .remove-item': 'removeItem'
+        },
+        removeItem: function() {
+            this.model.collection.remove(this.model);
+            this.remove();
+        }
     });
 });

@@ -8,17 +8,18 @@ define([
     'use strict';
 
     return Marionette.CollectionView.extend({
-    	childView: SelectedItem,
-    	
-    	initialize: function() {
-    		console.log('Selected view init')
-    	},
+        className: 'selected-items',
+        childView: SelectedItem,
+        
+        initialize: function() {
+            console.log('Selected view init')
+        },
 
-    	removeItem: function(e) {
-    		var item = $(e.target).find('.item').data('item'),
-    			model = this.collection.get(item);
+        removeItem: function(e) {
+            var item = $(e.target).find('.item').data('item'),
+                model = this.collection.get(item);
 
-    		this.collection.remove(model);
-    	},
+            this.collection.remove(model);
+        },
     });
 });

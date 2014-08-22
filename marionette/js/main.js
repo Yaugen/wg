@@ -1,41 +1,41 @@
 require.config({
-	paths: {
-		jquery: '../bower_components/jquery/dist/jquery',
-		underscore: '../bower_components/underscore/underscore',
-		backbone: '../bower_components/backbone/backbone',
-		babysitter: '../bower_components/backbone.babysitter/lib/backbone.babysitter',
-		wreqr: '../bower_components/backbone.wreqr/lib/backbone.wreqr',
-		marionette: '../bower_components/backbone.marionette/lib/backbone.marionette',
-		localStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
+    paths: {
+        jquery: '../bower_components/jquery/dist/jquery',
+        underscore: '../bower_components/underscore/underscore',
+        backbone: '../bower_components/backbone/backbone',
+        babysitter: '../bower_components/backbone.babysitter/lib/backbone.babysitter',
+        wreqr: '../bower_components/backbone.wreqr/lib/backbone.wreqr',
+        marionette: '../bower_components/backbone.marionette/lib/backbone.marionette',
+        localStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap',
         nunjucks: '../bower_components/nunjucks/browser/nunjucks',
         text: '../bower_components/requirejs-text/text'
-	},
+    },
 
-	shim: {
-		underscore: {
-			exports: '_'
-		},
+    shim: {
+        underscore: {
+            exports: '_'
+        },
 
-		backbone: {
-			exports: 'Backbone',
-			deps: ['jquery', 'underscore']
-		},
+        backbone: {
+            exports: 'Backbone',
+            deps: ['jquery', 'underscore']
+        },
 
-		babysitter: {
-			exports: 'Backbone.babysitter',
-			deps: ['backbone']
-		},
+        babysitter: {
+            exports: 'Backbone.babysitter',
+            deps: ['backbone']
+        },
 
-		wreqr: {
-			exports: 'Backbone.Wreqr',
-			deps: ['backbone']
-		},
+        wreqr: {
+            exports: 'Backbone.Wreqr',
+            deps: ['backbone']
+        },
 
-		marionette: {
-			exports: 'Backbone.Marionette',
-			deps: ['backbone', 'wreqr', 'babysitter']
-		},
+        marionette: {
+            exports: 'Backbone.Marionette',
+            deps: ['backbone', 'wreqr', 'babysitter']
+        },
 
         bootstrap: {
             deps: ['jquery']
@@ -43,16 +43,16 @@ require.config({
 
 
 
-	},
+    },
     waitSeconds: 60
 });
 
 require([
-	'app',
+    'app',
     'jquery',
-	'bootstrap'
+    'bootstrap'
 ], function (app) {
-	'use strict';
+    'use strict';
 
-	app.start();
+    app.start();
 });

@@ -11,10 +11,10 @@ define([
         className: 'main-wrap',
         template: 'main',
         regions: {
-        	selectItems: 'div.select-items'
+            selectItems: 'div.select-items'
         },
         onRender: function() {
-        	this.selectItems.show(new SelectItems());
+            this.selectItems.show(new SelectItems());
         }
     });
 });

@@ -1,18 +1,18 @@
 /*global define */
 
 define([
-	'backbone'
+    'backbone'
 ], function (Backbone) {
-	'use strict';
+    'use strict';
 
-	return Backbone.Model.extend({
-		idAttribute: 'item',
-		defaults: {
+    return Backbone.Model.extend({
+        idAttribute: 'item',
+        defaults: {
             item: '',
             selected: false,
             disabled: false,
-		},
+        },
 
-	});
+    });
 });
 

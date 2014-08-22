@@ -1,45 +1,54 @@
 .item-wrap {
-	display: inline-block;
-	width: 150px;
+    display: inline-block;
+    width: 150px;
 }
 .item {
-	padding: 5px;
-	background: #ccc;
+    padding: 5px;
+    background: #ccc;
+    margin: 10px 15px 10px 0px;
 }
 .item i {
-	float: right;
+    float: right;
 }
 .item i:hover {
-	cursor: pointer;
-	float: right;
+    cursor: pointer;
+    float: right;
 }
 .item:hover, .item.selected {
-	background: #aaa;
+    background: #aaa;
 }
 
 
 
 .item-container {
-	height: 300px;
-	overflow-y: auto;
+    height: 300px;
+    overflow-y: auto;
 }
 .item-container .item-wrap {
-	display: block;
-	width:100%;
+    display: block;
+    width:100%;
 }
 .item-container .item {
-	margin: 10px 5px;
+    margin: 10px 5px;
 }
 
 .item-container .item.disabled {
-	background: #eee;
+    background: #eee;
 }
 
 .item-container .item.disabled:hover {
-	cursor: default;
-	background: #eee;
+    cursor: default;
+    background: #eee;
 }
 
 .item-container .item:hover {
-	cursor: pointer;
+    cursor: pointer;
+}
+
+.dialog-wrap .row {
+    margin-top: 20px;
+}
+
+.dialog-wrap .filter {
+    height: 26px;
 }
