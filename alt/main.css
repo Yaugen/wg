@@ -1,0 +1,4 @@
+.selection-item {
+  list-style-type: none; }
+  .selection-item.selected {
+    background-color: #ddd; }

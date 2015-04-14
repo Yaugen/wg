@@ -1,0 +1,17 @@
+.selection-field .selection-item {
+  display: inline-block; }
+
+.selection-item {
+  list-style-type: none;
+  display: block;
+  width: 100px;
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer; }
+  .selection-item.selected {
+    background-color: #ddd; }
+  .selection-item:hover {
+    background-color: #aaa; }
+  .selection-item .delete {
+    float: right;
+    font-family: arial; }

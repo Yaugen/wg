@@ -1,0 +1,29 @@
+.selection-well {
+  
+}
+
+.selection-field {
+  .selection-item {
+    display: inline-block;
+  }
+}
+
+.selection-item {
+  list-style-type: none;
+  display: block;
+  width: 100px;
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer;
+
+  &.selected {
+    background-color: #ddd;
+  }
+  &:hover {
+    background-color: #aaa;
+  }
+  .delete {
+    float: right;
+    font-family: arial;
+  }
+}
